@@ -13,17 +13,16 @@ namespace Cosmos.Hello.Entities
         // The primary key for the Azure Cosmos account.
         public string PrimaryKey { get; set; }
 
-        // The Cosmos client instance
-        public CosmosClient CosmosClient { get; set; }
-
-        // The database we will create
-        public Database Database { get; set; }
-
-        // The container we will create.
-        public Container Container { get; set; }
-
         // The name of the database and container we will create
         public string DatabaseId { get; set; }
         public string ContainerId { get; set; }
+
+        public DbSettings()
+        {
+            EndpointUri = "";
+            PrimaryKey = "";
+            DatabaseId = "";
+            ContainerId = "";
+        }
     }
 }

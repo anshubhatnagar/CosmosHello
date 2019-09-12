@@ -27,7 +27,7 @@ namespace Cosmos.Hello.Entities
             _container = await _database.CreateContainerIfNotExistsAsync(_dbSettings.ContainerId, "/Name");
         }
 
-        public async Task AddItemsToContainerAsync()
+        public async Task AddMockItemsToContainerAsync()
         {
             var controller = new PlController
             {
@@ -59,6 +59,11 @@ namespace Cosmos.Hello.Entities
             };
 
             response = await _container.CreateItemAsync<PlController>(controller, new PartitionKey(controller.Name));
+        }
+
+        public async Task AddItemToContainerAsync(PlController controller)
+        {
+            await _container.CreateItemAsync<PlController>(controller, new PartitionKey(controller.Name));
         }
 
         public async Task<List<PlController>> GetItemsAsync()

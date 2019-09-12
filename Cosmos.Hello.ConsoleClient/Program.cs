@@ -7,20 +7,12 @@ using System.Threading.Tasks;
 
 namespace Cosmos.Hello.ConsoleClient
 {
-    class Program
+    public class Program
     {
         public static async Task Main(string[] args)
         {
-            var dbSettings = new DbSettings
-            {
-                EndpointUri = "",
-                PrimaryKey = "",
-                DatabaseId = "",
-                ContainerId = ""
-            };
-
             Console.WriteLine("Establishing Connection...");
-            var dbContext = new DbContext(dbSettings);
+            var dbContext = new DbContext(new DbSettings());
             await dbContext.AddDatabaseWithContainerAsync();
 
             Console.WriteLine("Reading Items...");
@@ -31,7 +23,7 @@ namespace Cosmos.Hello.ConsoleClient
                 Console.WriteLine("{0} Items Found. Recreating Database...", items.Count);
                 await dbContext.DeleteDatabaseAsync();
                 await dbContext.AddDatabaseWithContainerAsync();
-                await dbContext.AddItemsToContainerAsync();
+                await dbContext.AddMockItemsToContainerAsync();
             }
 
             Console.WriteLine("Reading Items...");
