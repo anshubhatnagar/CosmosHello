@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.29020.237
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cosmos.Hello.ConsoleClient", "Cosmos.Hello.ConsoleClient\Cosmos.Hello.ConsoleClient.csproj", "{06DD7B32-3BFC-48D7-B771-D7FE3B90407F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cosmos.Hello.Entities", "Cosmos.Hello.Entities\Cosmos.Hello.Entities.csproj", "{B3562115-87A4-450D-B35B-BBC653CC702C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cosmos.Hello.Entities", "Cosmos.Hello.Entities\Cosmos.Hello.Entities.csproj", "{B3562115-87A4-450D-B35B-BBC653CC702C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cosmos.Hello.WebApi", "Cosmos.Hello.WebApi\Cosmos.Hello.WebApi.csproj", "{F186E93E-5A0A-4828-83E7-39A86017F0E4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{B3562115-87A4-450D-B35B-BBC653CC702C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B3562115-87A4-450D-B35B-BBC653CC702C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B3562115-87A4-450D-B35B-BBC653CC702C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F186E93E-5A0A-4828-83E7-39A86017F0E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F186E93E-5A0A-4828-83E7-39A86017F0E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F186E93E-5A0A-4828-83E7-39A86017F0E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F186E93E-5A0A-4828-83E7-39A86017F0E4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
