@@ -9,20 +9,22 @@ namespace Cosmos.Hello.Entities
     public class DbContext
     {
         private DbSettings _dbSettings;
+        private CosmosClient _client;
+        private Database _database;
         private Container _container;
 
         public DbContext(DbSettings dbSettings)
         {
             _dbSettings = dbSettings;
+            _client = new CosmosClient(_dbSettings.EndpointUri, _dbSettings.PrimaryKey);
         }
 
-        public async Task OpenConnectionAsync()
+        public async Task AddDatabaseWithContainerAsync()
         {
-            var client = new CosmosClient(_dbSettings.EndpointUri, _dbSettings.PrimaryKey);
-            var databaseResponse = await client.CreateDatabaseIfNotExistsAsync(_dbSettings.DatabaseId);
+            _database = await _client.CreateDatabaseIfNotExistsAsync(_dbSettings.DatabaseId);
 
             // Has Pricing Implications
-            _container = await databaseResponse.Database.CreateContainerIfNotExistsAsync(_dbSettings.ContainerId, "/Name");
+            _container = await _database.CreateContainerIfNotExistsAsync(_dbSettings.ContainerId, "/Name");
         }
 
         public async Task AddItemsToContainerAsync()
@@ -41,16 +43,7 @@ namespace Cosmos.Hello.Entities
                 }
             };
 
-            try
-            {
-                ItemResponse<PlController> response = await _container.ReadItemAsync<PlController>(controller.Id, new PartitionKey(controller.Name));
-                Console.WriteLine("Already Exists: {0}", response.Resource.Id);
-            }
-            catch (CosmosException cosmosEx) when (cosmosEx.StatusCode == HttpStatusCode.NotFound)
-            {
-                ItemResponse<PlController> response = await _container.CreateItemAsync<PlController>(controller, new PartitionKey(controller.Name));
-                Console.WriteLine("Created: {0}", response.Resource.Id);
-            }
+            ItemResponse<PlController> response = await _container.CreateItemAsync<PlController>(controller, new PartitionKey(controller.Name));
 
             controller = new PlController
             {
@@ -65,60 +58,44 @@ namespace Cosmos.Hello.Entities
                 }
             };
 
-            try
-            {
-                ItemResponse<PlController> response = await _container.ReadItemAsync<PlController>(controller.Id, new PartitionKey(controller.Name));
-                Console.WriteLine("Already Exists: {0}", response.Resource.Id);
-            }
-            catch (CosmosException cosmosEx) when (cosmosEx.StatusCode == HttpStatusCode.NotFound)
-            {
-                ItemResponse<PlController> response = await _container.CreateItemAsync<PlController>(controller, new PartitionKey(controller.Name));
-                Console.WriteLine("Created: {0}", response.Resource.Id);
-            }
+            response = await _container.CreateItemAsync<PlController>(controller, new PartitionKey(controller.Name));
         }
 
-        public async Task ReadItemsQueryAsync()
+        public async Task<List<PlController>> GetItemsAsync()
         {
-            var sqlQueryText = "SELECT * FROM c WHERE c.Name = 'MicroSmart Pentra'";
-
-            Console.WriteLine("Running query: {0}\n", sqlQueryText);
+            var sqlQueryText = "SELECT * FROM c";
 
             var queryDefinition = new QueryDefinition(sqlQueryText);
             FeedIterator<PlController> queryResultSetIterator = _container.GetItemQueryIterator<PlController>(queryDefinition);
-
-            var families = new List<PlController>();
+            var controllers = new List<PlController>();
 
             while (queryResultSetIterator.HasMoreResults)
             {
                 FeedResponse<PlController> currentResultSet = await queryResultSetIterator.ReadNextAsync();
+
                 foreach (PlController controller in currentResultSet)
                 {
-                    families.Add(controller);
-                    Console.WriteLine("\tRead {0}\n", controller);
+                    controllers.Add(controller);
                 }
             }
+
+            return controllers;
         }
 
-        public async Task ReplaceItemAsync()
+        public async Task<PlController> UpdateItemAsync(PlController controller, string id, string partitionKey)
         {
-            ItemResponse<PlController> wakefieldFamilyResponse = await _container.ReadItemAsync<PlController>("OpenNet Controller.1", new PartitionKey("OpenNet Controller"));
-            var controller = wakefieldFamilyResponse.Resource;
-
-            controller.MaxDigital = 512;
-
-            // replace the item with the updated content
-            wakefieldFamilyResponse = await _container.ReplaceItemAsync<PlController>(controller, controller.Id, new PartitionKey(controller.Name));
-            Console.WriteLine("Updated Family [{0},{1}].\n \tBody is now: {2}\n", controller.Name, controller.Id, wakefieldFamilyResponse.Resource);
+            var response = await _container.ReplaceItemAsync<PlController>(controller, controller.Id, new PartitionKey(controller.Name));
+            return response.Resource;
         }
 
-        public async Task DeleteItemAsync()
+        public async Task DeleteItemAsync(string id, string partitionKey)
         {
-            var partitionKeyValue = "OpenNet Controller";
-            var id = "OpenNet Controller.1";
+            await _container.DeleteItemAsync<PlController>(id, new PartitionKey(partitionKey));
+        }
 
-            // Delete an item. Note we must provide the partition key value and id of the item to delete
-            ItemResponse<PlController> wakefieldFamilyResponse = await _container.DeleteItemAsync<PlController>(id, new PartitionKey(partitionKeyValue));
-            Console.WriteLine("Deleted Family [{0},{1}]\n", partitionKeyValue, id);
+        public async Task DeleteDatabaseAsync()
+        {
+            await _database.DeleteAsync();
         }
     }
 }
