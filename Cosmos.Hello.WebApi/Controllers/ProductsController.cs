@@ -19,8 +19,7 @@ namespace Cosmos.Hello.WebApi.Controllers
         }
 
         [HttpGet]
-        [ActionName("Get")]
-        public async Task<IEnumerable<PlController>> GetAllAsync()
+        public async Task<IEnumerable<PlController>> GetAll()
         {
             await _dbContext.AddDatabaseWithContainerAsync();
             return await _dbContext.GetItemsAsync();
@@ -33,7 +32,6 @@ namespace Cosmos.Hello.WebApi.Controllers
         }
 
         [HttpPost]
-        [ActionName("Post")]
         public async Task Update([FromBody]PlController value)
         {
             await _dbContext.AddDatabaseWithContainerAsync();
@@ -41,17 +39,13 @@ namespace Cosmos.Hello.WebApi.Controllers
         }
 
         [HttpPut]
-        [ActionName("Put")]
         public async Task Insert([FromBody]PlController value)
         {
             await _dbContext.AddDatabaseWithContainerAsync();
             await _dbContext.AddItemToContainerAsync(value);
         }
 
-        // HTTP Verb Delete not enabled in IIS Express
-        [HttpPost]
-        [Route("api/Products/delete/{id}/{name}")]
-        [ActionName("Delete")]
+        [HttpDelete]
         public async Task Delete(string id, string name)
         {
             await _dbContext.AddDatabaseWithContainerAsync();
