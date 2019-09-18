@@ -26,9 +26,10 @@ namespace Cosmos.Hello.WebApi.Controllers
         }
 
         [HttpGet]
-        public string Get(string id)
+        public async Task<PlController> Get(string id, string name)
         {
-            return "Not Implemented. Use Get without Parameters instead.";
+            await _dbContext.AddDatabaseWithContainerAsync();
+            return await _dbContext.GetItemAsync(id, name);
         }
 
         [HttpPost]

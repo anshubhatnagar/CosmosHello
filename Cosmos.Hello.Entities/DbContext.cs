@@ -43,7 +43,7 @@ namespace Cosmos.Hello.Entities
                 }
             };
 
-            ItemResponse<PlController> response = await _container.CreateItemAsync<PlController>(controller, new PartitionKey(controller.Name));
+            await AddItemToContainerAsync(controller);
 
             controller = new PlController
             {
@@ -58,12 +58,17 @@ namespace Cosmos.Hello.Entities
                 }
             };
 
-            response = await _container.CreateItemAsync<PlController>(controller, new PartitionKey(controller.Name));
+            await AddItemToContainerAsync(controller);
         }
 
         public async Task AddItemToContainerAsync(PlController controller)
         {
             await _container.CreateItemAsync<PlController>(controller, new PartitionKey(controller.Name));
+        }
+
+        public async Task<PlController> GetItemAsync(string id, string name)
+        {
+            return await _container.ReadItemAsync<PlController>(id, new PartitionKey(name));
         }
 
         public async Task<List<PlController>> GetItemsAsync()
