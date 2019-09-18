@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cosmos.Hello.Entities", "Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cosmos.Hello.WebApi", "Cosmos.Hello.WebApi\Cosmos.Hello.WebApi.csproj", "{F186E93E-5A0A-4828-83E7-39A86017F0E4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cosmos.Hello.Serverless", "Cosmos.Hello.Serverless\Cosmos.Hello.Serverless.csproj", "{6FF7ED1C-3155-43BC-85CF-0D4C6E69686B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{F186E93E-5A0A-4828-83E7-39A86017F0E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F186E93E-5A0A-4828-83E7-39A86017F0E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F186E93E-5A0A-4828-83E7-39A86017F0E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FF7ED1C-3155-43BC-85CF-0D4C6E69686B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FF7ED1C-3155-43BC-85CF-0D4C6E69686B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FF7ED1C-3155-43BC-85CF-0D4C6E69686B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FF7ED1C-3155-43BC-85CF-0D4C6E69686B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
