@@ -26,8 +26,8 @@ namespace Cosmos.Hello.AzureFunc.Products
                 return new BadRequestObjectResult("Please pass data of type 'Product' in the request body");
             }
 
-            var dbContext = new DbContext(new DbSettings());
-
+            var dbContext = new DbContext(SettingsBuilder.BuildDbSettings());
+            
             await dbContext.AddDatabaseWithContainerAsync();
             await dbContext.AddItemToContainerAsync(product);
 

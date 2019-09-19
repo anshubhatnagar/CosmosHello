@@ -12,7 +12,7 @@ namespace Cosmos.Hello.ConsoleClient
         public static async Task Main(string[] args)
         {
             Console.WriteLine("Establishing Connection...");
-            var dbContext = new DbContext(new DbSettings());
+            var dbContext = new DbContext(new CosmosDbSettings());
             await dbContext.AddDatabaseWithContainerAsync();
 
             Console.WriteLine("Reading Items...");

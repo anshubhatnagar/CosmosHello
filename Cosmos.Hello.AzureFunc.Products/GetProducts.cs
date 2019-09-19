@@ -19,7 +19,7 @@ namespace Cosmos.Hello.AzureFunc.Products
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
             ILogger log)
         {
-            var dbContext = new DbContext(new DbSettings());
+            var dbContext = new DbContext(SettingsBuilder.BuildDbSettings());
 
             await dbContext.AddDatabaseWithContainerAsync();
             List<PlController> products = await dbContext.GetItemsAsync();

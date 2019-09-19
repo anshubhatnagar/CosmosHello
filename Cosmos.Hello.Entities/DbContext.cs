@@ -8,23 +8,23 @@ namespace Cosmos.Hello.Entities
 {
     public class DbContext
     {
-        private DbSettings _dbSettings;
+        private CosmosDbSettings _dbSettings;
         private CosmosClient _client;
         private Database _database;
         private Container _container;
 
-        public DbContext(DbSettings dbSettings)
+        public DbContext(CosmosDbSettings dbSettings)
         {
             _dbSettings = dbSettings;
-            _client = new CosmosClient(_dbSettings.EndpointUri, _dbSettings.PrimaryKey);
+            _client = new CosmosClient(_dbSettings.ConnectionString);
         }
 
         public async Task AddDatabaseWithContainerAsync()
         {
-            _database = await _client.CreateDatabaseIfNotExistsAsync(_dbSettings.DatabaseId);
+            _database = await _client.CreateDatabaseIfNotExistsAsync(_dbSettings.DatabaseName);
 
             // Has Pricing Implications
-            _container = await _database.CreateContainerIfNotExistsAsync(_dbSettings.ContainerId, "/Name");
+            _container = await _database.CreateContainerIfNotExistsAsync(_dbSettings.ContainerName, "/Name");
         }
 
         public async Task AddMockItemsToContainerAsync()

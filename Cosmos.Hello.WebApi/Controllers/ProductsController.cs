@@ -1,4 +1,5 @@
 ﻿using Cosmos.Hello.Entities;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,9 @@ namespace Cosmos.Hello.WebApi.Controllers
 
         public ProductsController()
         {
-            _dbContext = new DbContext(new DbSettings());
+            CosmosDbSettings settings = BuildDbSettings();
+
+            _dbContext = new DbContext(settings);
         }
 
         [HttpGet]
@@ -51,6 +54,23 @@ namespace Cosmos.Hello.WebApi.Controllers
         {
             await _dbContext.AddDatabaseWithContainerAsync();
             await _dbContext.DeleteItemAsync(id, name);
+        }
+
+        private CosmosDbSettings BuildDbSettings()
+        {
+            var builder = new ConfigurationBuilder()
+                          .AddJsonFile("appsettings.json");
+
+            var configuration = builder.Build();
+
+            var settings = new CosmosDbSettings
+            {
+                ConnectionString = configuration["CosmosDbSettings:ConnectionString"],
+                DatabaseName = configuration["CosmosDbSettings:DatabaseName"],
+                ContainerName = configuration["CosmosDbSettings:ContainerName"]
+            };
+
+            return settings;
         }
     }
 }
