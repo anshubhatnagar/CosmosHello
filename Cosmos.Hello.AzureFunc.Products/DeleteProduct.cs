@@ -8,15 +8,14 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Cosmos.Hello.Entities;
-using System.Collections.Generic;
 
-namespace Cosmos.Hello.Serverless
+namespace Cosmos.Hello.AzureFunc.Products
 {
-    public static class GetProduct
+    public static class DeleteProduct
     {
-        [FunctionName("GetProduct")]
+        [FunctionName("DeleteProduct")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = null)] HttpRequest req,
             ILogger log)
         {
             string id = req.Query["id"];
@@ -30,9 +29,11 @@ namespace Cosmos.Hello.Serverless
             var dbContext = new DbContext(new DbSettings());
 
             await dbContext.AddDatabaseWithContainerAsync();
-            PlController product = await dbContext.GetItemAsync(id, name);
+            await dbContext.DeleteItemAsync(id, name);
 
-            return new OkObjectResult(product);
+            log.LogInformation("Deleted product to CosmosDB: {0}", id);
+
+            return new OkObjectResult("Command executed successfully: DeleteProduct");
         }
     }
 }

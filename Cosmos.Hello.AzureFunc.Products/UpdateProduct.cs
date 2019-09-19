@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Cosmos.Hello.Entities;
 
-namespace Cosmos.Hello.Serverless
+namespace Cosmos.Hello.AzureFunc.Products
 {
     public static class UpdateProduct
     {

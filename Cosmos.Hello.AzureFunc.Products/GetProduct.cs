@@ -10,23 +10,29 @@ using Newtonsoft.Json;
 using Cosmos.Hello.Entities;
 using System.Collections.Generic;
 
-namespace Cosmos.Hello.Serverless
+namespace Cosmos.Hello.AzureFunc.Products
 {
-    public static class GetProducts
+    public static class GetProduct
     {
-        [FunctionName("GetProducts")]
+        [FunctionName("GetProduct")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
             ILogger log)
         {
+            string id = req.Query["id"];
+            string name = req.Query["name"];
+
+            if (string.IsNullOrEmpty(id) || string.IsNullOrEmpty(name))
+            {
+                return new BadRequestObjectResult("Please pass 'id' and 'name' as query to this function.");
+            }
+
             var dbContext = new DbContext(new DbSettings());
 
             await dbContext.AddDatabaseWithContainerAsync();
-            List<PlController> products = await dbContext.GetItemsAsync();
+            PlController product = await dbContext.GetItemAsync(id, name);
 
-            log.LogInformation("Fetched all products from CosmosDB");
-
-            return new OkObjectResult(products);
+            return new OkObjectResult(product);
         }
     }
 }
