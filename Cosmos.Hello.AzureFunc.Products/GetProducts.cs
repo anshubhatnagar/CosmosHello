@@ -17,9 +17,9 @@ namespace Cosmos.Hello.AzureFunc.Products
         [FunctionName("GetProducts")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
-            ILogger log)
+            ILogger log, ExecutionContext context)
         {
-            var dbContext = new DbContext(SettingsBuilder.BuildDbSettings());
+            var dbContext = new DbContext(SettingsBuilder.BuildDbSettings(context.FunctionAppDirectory));
 
             await dbContext.AddDatabaseWithContainerAsync();
             List<PlController> products = await dbContext.GetItemsAsync();

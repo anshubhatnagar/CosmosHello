@@ -16,7 +16,7 @@ namespace Cosmos.Hello.AzureFunc.Products
         [FunctionName("UpdateProduct")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req,
-            ILogger log)
+            ILogger log, ExecutionContext context)
         {
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             PlController product = JsonConvert.DeserializeObject<PlController>(requestBody);
@@ -26,7 +26,7 @@ namespace Cosmos.Hello.AzureFunc.Products
                 return new BadRequestObjectResult("Please pass data of type 'Product' in the request body");
             }
 
-            var dbContext = new DbContext(SettingsBuilder.BuildDbSettings());
+            var dbContext = new DbContext(SettingsBuilder.BuildDbSettings(context.FunctionAppDirectory));
 
             await dbContext.AddDatabaseWithContainerAsync();
             await dbContext.UpdateItemAsync(product, product.Id, product.Name);

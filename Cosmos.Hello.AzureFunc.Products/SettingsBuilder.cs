@@ -9,20 +9,19 @@ namespace Cosmos.Hello.AzureFunc.Products
 {
     public static class SettingsBuilder
     {
-        public static CosmosDbSettings BuildDbSettings()
+        public static CosmosDbSettings BuildDbSettings(string baseDirectory)
         {
-            var settingFilePath = Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json");
-
-            var builder = new ConfigurationBuilder()
-                          .AddJsonFile(settingFilePath);
-
-            var configuration = builder.Build();
+            var config = new ConfigurationBuilder()
+                          .SetBasePath(baseDirectory)
+                          .AddJsonFile("appsettings.json")
+                          .AddJsonFile("local.settings.json", optional: true, reloadOnChange: true)
+                          .Build();
 
             var settings = new CosmosDbSettings
             {
-                ConnectionString = configuration["CosmosDbSettings:ConnectionString"],
-                DatabaseName = configuration["CosmosDbSettings:DatabaseName"],
-                ContainerName = configuration["CosmosDbSettings:ContainerName"]
+                ConnectionString = config["CosmosDbSettings:ConnectionString"],
+                DatabaseName = config["CosmosDbSettings:DatabaseName"],
+                ContainerName = config["CosmosDbSettings:ContainerName"]
             };
 
             return settings;

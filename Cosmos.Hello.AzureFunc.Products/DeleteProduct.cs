@@ -16,7 +16,7 @@ namespace Cosmos.Hello.AzureFunc.Products
         [FunctionName("DeleteProduct")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = null)] HttpRequest req,
-            ILogger log)
+            ILogger log, ExecutionContext context)
         {
             string id = req.Query["id"];
             string name = req.Query["name"];
@@ -26,7 +26,7 @@ namespace Cosmos.Hello.AzureFunc.Products
                 return new BadRequestObjectResult("Please pass 'id' and 'name' as query to this function.");
             }
 
-            var dbContext = new DbContext(SettingsBuilder.BuildDbSettings());
+            var dbContext = new DbContext(SettingsBuilder.BuildDbSettings(context.FunctionAppDirectory));
 
             await dbContext.AddDatabaseWithContainerAsync();
             await dbContext.DeleteItemAsync(id, name);
