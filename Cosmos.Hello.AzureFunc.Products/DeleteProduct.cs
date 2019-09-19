@@ -26,7 +26,7 @@ namespace Cosmos.Hello.AzureFunc.Products
                 return new BadRequestObjectResult("Please pass 'id' and 'name' as query to this function.");
             }
 
-            var dbContext = new DbContext(new CosmosDbSettings());
+            var dbContext = new DbContext(SettingsBuilder.BuildDbSettings());
 
             await dbContext.AddDatabaseWithContainerAsync();
             await dbContext.DeleteItemAsync(id, name);
