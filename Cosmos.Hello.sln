@@ -11,7 +11,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cosmos.Hello.WebApi", "Cosm
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cosmos.Hello.AzureFunc.Products", "Cosmos.Hello.AzureFunc.Products\Cosmos.Hello.AzureFunc.Products.csproj", "{238D3A7A-A29B-424F-9FBA-82EAD87A1D5E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cosmos.Hello.AzureFunc.Triggers", "Cosmos.Hello.AzureFunc.Triggers\Cosmos.Hello.AzureFunc.Triggers.csproj", "{F1B79F2B-18BC-4BFA-A98C-7A96BEFB5575}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cosmos.Hello.AzureFunc.Triggers", "Cosmos.Hello.AzureFunc.Triggers\Cosmos.Hello.AzureFunc.Triggers.csproj", "{F1B79F2B-18BC-4BFA-A98C-7A96BEFB5575}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cosmos.Hello.EventSimulator", "Cosmos.Hello.EventSimulator\Cosmos.Hello.EventSimulator.csproj", "{DECA04B4-0CEE-4D2E-ADC4-BE71E470E79A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{F1B79F2B-18BC-4BFA-A98C-7A96BEFB5575}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F1B79F2B-18BC-4BFA-A98C-7A96BEFB5575}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F1B79F2B-18BC-4BFA-A98C-7A96BEFB5575}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DECA04B4-0CEE-4D2E-ADC4-BE71E470E79A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DECA04B4-0CEE-4D2E-ADC4-BE71E470E79A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DECA04B4-0CEE-4D2E-ADC4-BE71E470E79A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DECA04B4-0CEE-4D2E-ADC4-BE71E470E79A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
